@@ -5,22 +5,37 @@ from FourMapSolver import FourMapSolver
 from GraphReader import GraphReader
 from datetime import datetime
 
+
+def print_graph(color_graph: dict):
+    """
+    prints a dict of ColorNode
+    :param color_graph: dict of ColorNode
+    :return:
+    """
+    if color_graph is None:
+        print("Empty graph")
+        return
+
+    for color_node in color_graph.values():
+        print(color_node)
+
+
+def solve(unsolved_graph: dict):
+    print("start:", datetime.now())
+    solution = FourMapSolver().solve(unsolved_graph)
+    print("end:", datetime.now())
+    return solution
+
+
 # get graph
 filename = 'samples/graph1.txt'
 graph = GraphReader.read_graph(filename)
 
-# solve
-print("start:", datetime.now())
-solver = FourMapSolver()
-solved_graph = solver.solve(graph)
-print("end:", datetime.now())
+print("input: ")
+print_graph(graph)
 
+print("\nsolve: ")
+solved_graph = solve(graph)
 
-
-# print solution
-if solved_graph is None:
-    print("no solution")
-else:
-    for node_id in solved_graph:
-        node = graph[node_id]
-        print(node)
+print("\noutput: ")
+print_graph(solved_graph)

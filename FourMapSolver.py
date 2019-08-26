@@ -36,7 +36,8 @@ class FourMapSolver:
 
     def __solve(self, nodes: dict, unprocessed: list):
         """
-        Helper for solve
+        Helper for solve.
+        For each spot, there SHOULD be an answer
         :param nodes: dict of ColorNode
         :param unprocessed: list of node ids
         :return: if solution, dict of ColorNode. Else, None.
@@ -45,29 +46,29 @@ class FourMapSolver:
         if self.is_solution(unprocessed):
             return nodes
 
-        for i in range(0, len(unprocessed)):
-            node_id = unprocessed[i]
-            node = nodes[node_id]
+        current_index = 0
+        node_id = unprocessed[current_index]
+        node = nodes[node_id]
 
-            # TODO: implement ez-answers (only 1 possible answer)
+        # TODO: implement ez-answers (only 1 possible answer)
 
-            # fill one color
-            unprocessed.remove(node_id)
-            for color in Color:
-                if color == Color.NONE:
-                    continue
+        # fill one color
+        unprocessed.pop(current_index)
+        for color in Color:
+            if color == Color.NONE:
+                continue
 
-                # try to apply a color
-                node.color = color
-                if not self.is_valid(node):
-                    continue
+            # try to apply a color
+            node.color = color
+            if not self.is_valid(node):
+                continue
 
-                answer = self.__solve(nodes, unprocessed)
-                if answer is not None:
-                    return answer
+            answer = self.__solve(nodes, unprocessed)
+            if answer is not None:
+                return answer
 
-            # undo
-            unprocessed.insert(i, node_id)
+        # undo
+        unprocessed.insert(current_index, node_id)
 
         return None
 
