@@ -4,8 +4,8 @@ from Color import Color
 class ColorNode:
     def __init__(self, node_id):
         self.id = node_id
-        self.neighbors = {}
-        self.color = Color.BLANK
+        self.neighbors = {}  # {id#, ColorNode}
+        self.color = Color.NONE
 
     def __str__(self):
         neighbor_str = self.neighbors_to_string()
