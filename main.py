@@ -23,7 +23,7 @@ def print_graph(color_graph: dict):
 def solve(unsolved_graph: dict):
     print("start:", datetime.now())
     solution = FourMapSolver().solve(unsolved_graph)
-    print("end:", datetime.now())
+    print("end  :", datetime.now())
     return solution
 
 
