@@ -68,6 +68,7 @@ class FourMapSolver:
                 return answer
 
         # undo
+        node.color = Color.NONE
         unprocessed.insert(current_index, node_id)
 
         return None
@@ -91,17 +92,10 @@ class FourMapSolver:
         :param node: ColorNode
         :return: True if valid. False otherwise
         """
-        used_colors = {node.color}
+        used_color = node.color
 
         for neighbor in node.neighbors.values():
-            color = neighbor.color
-
-            if color == Color.NONE:
-                continue
-
-            if color in used_colors:
+            if neighbor.color == used_color:
                 return False
-
-            used_colors.add(color)
 
         return True
