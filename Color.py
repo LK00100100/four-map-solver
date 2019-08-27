@@ -18,6 +18,7 @@ class ColorRGB(Enum):
 
     @staticmethod
     def convert_rgb_tuple_to_color(val: tuple):
+        # ignore alpha value (4th value)
         for color in ColorRGB:
-            if val == color.value:
+            if val[0:3] == color.value[0:3]:
                 return color

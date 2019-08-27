@@ -5,6 +5,8 @@ from FourMapSolver import FourMapSolver
 from GraphReader import GraphReader
 from datetime import datetime
 
+from ImageReader import ImageReader
+
 
 def print_graph(color_graph: dict):
     """
@@ -28,8 +30,12 @@ def solve(unsolved_graph: dict):
 
 
 # get graph
-filename = 'samples/graph1.txt'
-graph = GraphReader.read_graph(filename)
+# filename = 'samples/graph1.txt'
+# graph = GraphReader.read_graph(filename)
+
+filename = 'samples/map-sample1.png'
+img_reader = ImageReader()
+graph = img_reader.convert_to_graph(filename)
 
 print("input: ")
 print_graph(graph)

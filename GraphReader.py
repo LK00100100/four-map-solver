@@ -3,6 +3,9 @@ from ColorNode import ColorNode
 
 
 class GraphReader:
+    """
+    Reads a file and turns it into a ColorNode graph
+    """
 
     @staticmethod
     def read_graph(filename: str):
@@ -21,8 +24,6 @@ class GraphReader:
         :param filename:
         :return ColorNode: that is connected
         """
-        nodes = {}
-
         with open(filename, 'r') as file:
             for line in file:
                 line = line.strip()
@@ -37,7 +38,7 @@ class GraphReader:
 
                 # init nodes
                 if left.lower() == 'nodes':
-                    GraphReader.init_map(nodes, int(right))
+                    nodes = GraphReader.init_map(int(right))
                     continue
 
                 # connect node
@@ -54,10 +55,20 @@ class GraphReader:
 
         return nodes
 
+    # TODO: move these graph-related methods out
+
     @staticmethod
-    def init_map(nodes: dict, node_nums: int):
+    def init_map(node_nums: int):
+        """
+        init a graph from 1 to node_nums (inclusive)
+        :param node_nums: number of nodes in the graph
+        :return: graph of nodes
+        """
+        nodes = {}
         for i in range(1, node_nums + 1):
             nodes[i] = ColorNode(i)
+
+        return nodes
 
     @staticmethod
     def link_nodes(nodes: dict, node_a: int, node_b: int):
@@ -70,11 +81,11 @@ class GraphReader:
         :return:
         """
 
-        GraphReader.link_node_helper(nodes, node_a, node_b)
-        GraphReader.link_node_helper(nodes, node_b, node_a)
+        GraphReader.__link_node_helper(nodes, node_a, node_b)
+        GraphReader.__link_node_helper(nodes, node_b, node_a)
 
     @staticmethod
-    def link_node_helper(nodes: dict, node_a: int, node_b: int):
+    def __link_node_helper(nodes: dict, node_a: int, node_b: int):
         """
         Links one way
         :param nodes: dict of ColorNode
