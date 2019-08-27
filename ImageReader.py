@@ -69,11 +69,43 @@ class ImageReader:
 
         id_grid = self.init_id_grid(grid)
 
-        for row in range(len(grid)):
-            for col in range(len(grid[0])):
-                assigned_id = self.convert_pixel_grid_to_id_grid_helper(id_grid, row, col, current_id)
+        process_queue = []
 
-                current_id = current_id + 1 if assigned_id == -1 else current_id
+        for r in range(len(id_grid)):
+
+            for c in range(len(id_grid[0])):
+                process_queue.append((r, c))
+                just_set_new_id = False
+
+                while len(process_queue) > 0:
+                    coord = process_queue.pop()
+                    row = coord[0]
+                    col = coord[1]
+
+                    # out of bounds
+                    if row < 0 or row >= len(id_grid):
+                        continue
+
+                    # out of bounds
+                    if col < 0 or col >= len(id_grid[0]):
+                        continue
+
+                    # assigned an id OR a wall
+                    if id_grid[row][col] != 0:
+                        continue
+
+                    # spread the current_id everywhere
+                    id_grid[row][col] = current_id
+
+                    process_queue.append((row - 1, col))
+                    process_queue.append((row + 1, col))
+                    process_queue.append((row, col - 1))
+                    process_queue.append((row, col + 1))
+
+                    just_set_new_id = True
+
+                if just_set_new_id:
+                    current_id = current_id + 1
 
         return id_grid
 
@@ -102,46 +134,14 @@ class ImageReader:
 
         return id_grid
 
-    def convert_pixel_grid_to_id_grid_helper(self, id_grid: list, row: int, col: int, current_id: int):
-        """
-        spread current_id through flood-fill. Doesn't spread beyond "invalid."
-        Does not spread diagonally
-        :param id_grid:
-        :param row:
-        :param col:
-        :param current_id:
-        :return:
-        """
-        # invalid
-        if row < 0 or row >= len(id_grid):
-            return -1
-
-        if col < 0 or col >= len(id_grid[0]):
-            return -1
-
-        if id_grid[row][col] == -1:
-            return -1
-
-        # already assigned
-        if id_grid[row][col] > 0:
-            return -1
-
-        # spread the current_id everywhere
-        id_grid[row][col] = current_id
-
-        self.convert_pixel_grid_to_id_grid_helper(id_grid, row - 1, col, current_id)
-        self.convert_pixel_grid_to_id_grid_helper(id_grid, row + 1, col, current_id)
-        self.convert_pixel_grid_to_id_grid_helper(id_grid, row, col - 1, current_id)
-        self.convert_pixel_grid_to_id_grid_helper(id_grid, row, col + 1, current_id)
-
-        return current_id
-
     def convert_id_grid_to_graph(self, id_grid: list):
         """
-        converts an id_grid to a
+        converts an id_grid to a graph of ColorNode
         :param id_grid:
         :return:
         """
+
+        graph = id_grid
 
         return graph
 
