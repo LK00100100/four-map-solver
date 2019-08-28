@@ -21,4 +21,18 @@ class ColorRGB(Enum):
         # ignore alpha value (4th value)
         for color in ColorRGB:
             if val[0:3] == color.value[0:3]:
-                return color
+                # TODO: simplify
+                if val[0] == 240:
+                    return Color.NONE
+
+                if val[0] == 140:
+                    return Color.BROWN
+
+                if val[0] == 127:
+                    return Color.GREEN
+
+                if val[0] == 178:
+                    return Color.RED
+
+                if val[0] == 204:
+                    return Color.YELLOW
