@@ -55,7 +55,7 @@ class FourMapSolver:
         # fill one color
         unprocessed.pop(current_index)
         for color in Color:
-            if color == Color.NONE:
+            if color == Color.NONE or color == Color.BLACK:
                 continue
 
             # try to apply a color

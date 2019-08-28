@@ -1,6 +1,6 @@
 from PIL import Image
 
-from Graph.Color import ColorRGB
+from Graph.Color import Color
 from GraphReader.TextReader import TextReader
 
 
@@ -18,6 +18,7 @@ class ImageReader:
 
     # gets the latest set id_grid
     last_id_grid = None
+    last_pixel_grid = None
 
     @staticmethod
     def convert_to_graph(file_name: str) -> dict:
@@ -49,6 +50,7 @@ class ImageReader:
 
             grid.append(row)
 
+        ImageReader.last_pixel_grid = grid
         return grid
 
     @staticmethod
@@ -169,7 +171,7 @@ class ImageReader:
                 checked_ids.add(current_id)
 
                 current_color_tuple = grid[row][col]
-                current_color = ColorRGB.convert_rgb_tuple_to_color(current_color_tuple)
+                current_color = Color.convert_rgb_tuple_to_color(current_color_tuple)
 
                 nodes[current_id].color = current_color
         # todo: slow. add dict?

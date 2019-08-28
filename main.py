@@ -1,6 +1,7 @@
 # solves the 4-color-map game on Mobaxterm
 # python 3.7
 # author lk00100100
+from GraphPrinter.ImagePrinter import ImagePrinter
 from GraphSolver.FourMapSolver import FourMapSolver
 from datetime import datetime
 
@@ -35,12 +36,12 @@ def save_solution_picture():
 # filename = 'input_samples/graph1.txt'
 # graph = GraphReader.read_graph(filename)
 
-
-filename = 'input_samples/map-sample1.png'
+filename = "map-sample1.png"
+input_file_path = 'input_samples/' + filename
 
 print("\nstart:", datetime.now())
-img_reader = ImageReader()
-graph = img_reader.convert_to_graph(filename)
+
+graph = ImageReader.convert_to_graph(input_file_path)
 print("end  :", datetime.now())
 
 print("\ninput: ")
@@ -52,5 +53,7 @@ solved_graph = solve(graph)
 print("\noutput: ")
 print_graph(solved_graph)
 
-
 id_grid = ImageReader.last_id_grid
+
+output_path = "output/" + filename
+ImagePrinter.save_png_image(output_path, id_grid, solved_graph)

@@ -10,7 +10,7 @@ class ColorNode:
 
     def __str__(self):
         neighbor_str = self.neighbors_to_string()
-        return '[{} {} {} '.format(self.id, self.color, neighbor_str)
+        return '[{}, {}, {} '.format(self.id, self.color, neighbor_str)
 
     def neighbors_to_string(self):
         """
