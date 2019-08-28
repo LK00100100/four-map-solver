@@ -1,8 +1,8 @@
-from Color import Color
-from ColorNode import ColorNode
+from Graph.Color import Color
+from Graph.ColorNode import ColorNode
 
 
-class GraphReader:
+class TextReader:
     """
     Reads a file and turns it into a ColorNode graph
     """
@@ -38,14 +38,14 @@ class GraphReader:
 
                 # init nodes
                 if left.lower() == 'nodes':
-                    nodes = GraphReader.init_map(int(right))
+                    nodes = TextReader.init_map(int(right))
                     continue
 
                 # connect node
                 if right.isnumeric():
                     node_a = int(left)
                     node_b = int(right)
-                    GraphReader.link_nodes(nodes, node_a, node_b)
+                    TextReader.link_nodes(nodes, node_a, node_b)
                     continue
 
                 # init color
@@ -81,8 +81,8 @@ class GraphReader:
         :return:
         """
 
-        GraphReader.__link_node_helper(nodes, node_a, node_b)
-        GraphReader.__link_node_helper(nodes, node_b, node_a)
+        TextReader.__link_node_helper(nodes, node_a, node_b)
+        TextReader.__link_node_helper(nodes, node_b, node_a)
 
     @staticmethod
     def __link_node_helper(nodes: dict, node_a: int, node_b: int):

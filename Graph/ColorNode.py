@@ -1,8 +1,9 @@
-from Color import Color
+from Graph.Color import Color
 
 
 class ColorNode:
-    def __init__(self, node_id):
+
+    def __init__(self, node_id: int):
         self.id = node_id
         self.neighbors = {}  # {id#, ColorNode}
         self.color = Color.NONE

@@ -1,5 +1,6 @@
 from enum import Enum
 
+# TODO : consolidate?
 
 class Color(Enum):
     NONE = 0

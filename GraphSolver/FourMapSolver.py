@@ -1,5 +1,5 @@
-from Color import Color
-from ColorNode import ColorNode
+from Graph.Color import Color
+from Graph.ColorNode import ColorNode
 
 
 class FourMapSolver:

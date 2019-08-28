@@ -1,7 +1,7 @@
 from PIL import Image
 
-from Color import ColorRGB
-from GraphReader import GraphReader
+from Graph.Color import ColorRGB
+from GraphReader.TextReader import TextReader
 
 
 class ImageReader:
@@ -20,26 +20,21 @@ class ImageReader:
     last_id_grid = None
 
     @staticmethod
-    def convert_to_graph(file_name: str):
+    def convert_to_graph(file_name: str) -> dict:
         pixel_grid = ImageReader.get_image_pixel_grid(file_name)
         return ImageReader.get_color_node_graph(pixel_grid)
 
     @staticmethod
-    def get_image_pixel_grid(file_path: str):
+    def get_image_pixel_grid(file_path: str) -> list:
         """
         converts an image into a 2d grid of RGBA tuples
         :param file_path: -
         :return: a 2d grid of tuples (Red, Green, Blue, Alpha)
         """
         im = Image.open(file_path)
-
-        print(im.format)
-        print(im.size)
-        print(im.mode)
-
-        rgb_im = im.convert('RGB')
-        r, g, b = rgb_im.getpixel((10, 10))
-        print(r, g, b)
+        print("image format:", im.format)
+        print("img size:", im.size)
+        print("img mode:", im.mode)
 
         game_length = ImageReader.end_pixel[0] - ImageReader.start_pixel[0] + 1
         game_height = ImageReader.end_pixel[1] - ImageReader.start_pixel[1] + 1
@@ -157,7 +152,7 @@ class ImageReader:
         """
         max_id = ImageReader.get_max_id(id_grid)
 
-        nodes = GraphReader.init_map(max_id)
+        nodes = TextReader.init_map(max_id)
 
         # assign color
         checked_ids = set()
@@ -201,7 +196,7 @@ class ImageReader:
                         if current_id == neighbor_id:
                             break
 
-                        GraphReader.link_nodes(nodes, current_id, neighbor_id)
+                        TextReader.link_nodes(nodes, current_id, neighbor_id)
                         break
 
                 # get the right neighbor
@@ -219,7 +214,7 @@ class ImageReader:
                         if current_id == neighbor_id:
                             break
 
-                        GraphReader.link_nodes(nodes, current_id, neighbor_id)
+                        TextReader.link_nodes(nodes, current_id, neighbor_id)
                         break
 
         return nodes
@@ -235,7 +230,3 @@ class ImageReader:
                     max_id = x
 
         return max_id
-
-# image_name = 'samples/map-sample1.png'
-# img_reader = ImageReader()
-# nodes = img_reader.convert_to_graph(image_name)
