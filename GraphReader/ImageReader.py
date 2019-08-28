@@ -8,15 +8,7 @@ class ImageReader:
     """
     reads an image from MobaXterm's 4-color map game
     """
-    # TODO probably change this later for the whole screen
-    # this is the first color pixel in the game zone
-    # upper-left pixel (x, y)
-    start_pixel = (22, 72)
-
-    # bottom-right pixel (x, y)
-    end_pixel = (420, 370)
-
-    # gets the latest set id_grid
+    # gets the last set grids
     last_id_grid = None
     last_pixel_grid = None
 
@@ -37,15 +29,23 @@ class ImageReader:
         print("img size:", im.size)
         print("img mode:", im.mode)
 
-        game_length = ImageReader.end_pixel[0] - ImageReader.start_pixel[0] + 1
-        game_height = ImageReader.end_pixel[1] - ImageReader.start_pixel[1] + 1
+        # TODO probably change this later for the whole screen
+        # this is the first color pixel in the game zone
+        # upper-left pixel (x, y)
+        start_pixel = (22, 72)
+
+        # bottom-right pixel (x, y)
+        end_pixel = (im.size[0] - 23, im.size[1] - 23)
+
+        game_length = end_pixel[0] - start_pixel[0] + 1
+        game_height = end_pixel[1] - start_pixel[1] + 1
 
         # get image into grid
         grid = []
         for y in range(0, game_height):
             row = []
             for x in range(0, game_length):
-                pixel = im.getpixel((ImageReader.start_pixel[0] + x, ImageReader.start_pixel[1] + y))
+                pixel = im.getpixel((start_pixel[0] + x, start_pixel[1] + y))
                 row.append(pixel)
 
             grid.append(row)
