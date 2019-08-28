@@ -11,21 +11,31 @@ class ImagePrinter:
 
     @staticmethod
     def save_png_image(file_name: str, id_grid: list, solution_graph: dict):
-        # todo: doc string
+        """
+        Save solution_graph
+        :param file_name: the filename
+        :param id_grid: 2d array of ids
+        :param solution_graph: dict of ColorNode
+        :return:
+        """
+        # convert to np_array
+        # it has to be 'uint8' or it'll freak out
         solution_grid = ImagePrinter.__create_image_grid(id_grid, solution_graph)
         solution_grid = np.asarray(solution_grid)
-
-        # it has to be 'uint8' or it'll freak out
         solution_grid = solution_grid.astype('uint8')
 
-        print(solution_grid)
+        # save image
         solution_img = Image.fromarray(solution_grid, "RGB")
-        #solution_img.show()
-
         solution_img.save(file_name)
 
     @staticmethod
     def __create_image_grid(id_grid: list, solution_graph: dict) -> list:
+        """
+        Replaces ids from the id_grid with colors
+        :param id_grid: 2d array of ids
+        :param solution_graph: dict of ColorNode
+        :return:
+        """
         solution_grid = []
         for r in range(len(id_grid)):
             row = []
