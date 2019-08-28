@@ -16,6 +16,9 @@ class ImageReader:
     # bottom-right pixel (x, y)
     end_pixel = (420, 370)
 
+    # gets the latest set id_grid
+    last_id_grid = None
+
     @staticmethod
     def convert_to_graph(file_name: str):
         pixel_grid = ImageReader.get_image_pixel_grid(file_name)
@@ -43,9 +46,9 @@ class ImageReader:
 
         # get image into grid
         grid = []
-        for x in range(0, game_length):
+        for y in range(0, game_height):
             row = []
-            for y in range(0, game_height):
+            for x in range(0, game_length):
                 pixel = im.getpixel((ImageReader.start_pixel[0] + x, ImageReader.start_pixel[1] + y))
                 row.append(pixel)
 
@@ -54,7 +57,7 @@ class ImageReader:
         return grid
 
     @staticmethod
-    def get_color_node_graph(grid: list):
+    def get_color_node_graph(grid: list) -> dict:
         """
         converts a 2d array of tuple (RGBA)
         into a dict/graph of ColorNode
@@ -62,12 +65,12 @@ class ImageReader:
         :return: dict/graph of ColorNode
         """
         id_grid = ImageReader.convert_pixel_grid_to_id_grid(grid)
-        nodes = ImageReader.convert_id_grid_to_graph(grid, id_grid)
+        the_nodes = ImageReader.convert_id_grid_to_graph(grid, id_grid)
 
-        return nodes
+        return the_nodes
 
     @staticmethod
-    def convert_pixel_grid_to_id_grid(grid: list):
+    def convert_pixel_grid_to_id_grid(grid: list) -> list:
         """
         convert a pixel-grid to an id-grid
         :param grid: the 2d grid of tuple (R, G, B, A)
@@ -116,10 +119,11 @@ class ImageReader:
                 if just_set_new_id:
                     current_id = current_id + 1
 
+        ImageReader.last_id_grid = id_grid
         return id_grid
 
     @staticmethod
-    def init_id_grid(px_grid: list):
+    def init_id_grid(px_grid: list) -> list:
         """
         from a pixel_grid
         :param px_grid: 2d array of (R, G, B, A).
@@ -145,7 +149,7 @@ class ImageReader:
         return id_grid
 
     @staticmethod
-    def convert_id_grid_to_graph(grid: list, id_grid: list):
+    def convert_id_grid_to_graph(grid: list, id_grid: list) -> dict:
         """
         converts a grid and id_grid to a graph of ColorNode
         :param grid: 2d array of tuple of ints (r,g,b,a)
@@ -155,8 +159,9 @@ class ImageReader:
         max_id = ImageReader.get_max_id(id_grid)
 
         nodes = GraphReader.init_map(max_id)
-        # todo: slow. add dict
+
         # assign color
+        checked_ids = set()
         for row in range(len(id_grid)):
             for col in range(len(id_grid[0])):
                 current_id = id_grid[row][col]
@@ -164,11 +169,16 @@ class ImageReader:
                 if current_id == -1:
                     continue
 
+                if current_id in checked_ids:
+                    continue
+
+                checked_ids.add(current_id)
+
                 current_color_tuple = grid[row][col]
                 current_color = ColorRGB.convert_rgb_tuple_to_color(current_color_tuple)
 
                 nodes[current_id].color = current_color
-
+        # todo: slow. add dict?
         # get neighbors
         for row in range(len(id_grid)):
             for col in range(len(id_grid[0])):
@@ -178,39 +188,45 @@ class ImageReader:
                     continue
 
                 # get the down neighbor
-                for r in range(row, len(id_grid)):
+                for r in range(row + 1, len(id_grid)):
                     # we hit a black border
                     if id_grid[r][col] == -1:
                         if r + 1 >= len(id_grid):
-                            continue
+                            break
 
                         neighbor_id = id_grid[r + 1][col]
 
                         if neighbor_id == -1:
-                            continue
+                            break
+
+                        if current_id == neighbor_id:
+                            break
 
                         GraphReader.link_nodes(nodes, current_id, neighbor_id)
-                        continue
+                        break
 
                 # get the right neighbor
-                for c in range(col, len(id_grid[0])):
+                for c in range(col + 1, len(id_grid[0])):
                     # we hit a black border
                     if id_grid[row][c] == -1:
                         if c + 1 >= len(id_grid[0]):
-                            continue
+                            break
 
                         neighbor_id = id_grid[row][c + 1]
 
                         if neighbor_id == -1:
-                            continue
+                            break
+
+                        if current_id == neighbor_id:
+                            break
 
                         GraphReader.link_nodes(nodes, current_id, neighbor_id)
-                        continue
+                        break
 
         return nodes
 
     @staticmethod
-    def get_max_id(id_grid: list):
+    def get_max_id(id_grid: list) -> int:
         max_id = -1
 
         for row in range(len(id_grid)):

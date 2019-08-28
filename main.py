@@ -45,3 +45,7 @@ solved_graph = solve(graph)
 
 print("\noutput: ")
 print_graph(solved_graph)
+
+# id_grid = ImageReader.last_id_grid
+# for r in range(len(id_grid)):
+#     print(id_grid[r])
