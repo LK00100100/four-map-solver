@@ -84,7 +84,6 @@ class ImageReader:
         process_queue = []
 
         for r in range(len(id_grid)):
-
             for c in range(len(id_grid[0])):
                 process_queue.append((r, c))
                 just_set_new_id = False
@@ -139,7 +138,7 @@ class ImageReader:
             for c in range(len(px_grid[0])):
                 pixel = px_grid[r][c]
                 val = 0
-                if pixel == (0, 0, 0, 255):
+                if pixel[0:3] == (0, 0, 0):
                     val = -1
 
                 row.append(val)
