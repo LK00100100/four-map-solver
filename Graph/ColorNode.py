@@ -2,6 +2,9 @@ from Graph.Color import Color
 
 
 class ColorNode:
+    """
+    A ColorNode for a graph
+    """
 
     def __init__(self, node_id: int):
         self.id = node_id
@@ -26,3 +29,18 @@ class ColorNode:
         neighbors_str += ']'
 
         return neighbors_str
+
+
+def print_graph(color_graph: dict):
+    """
+    prints a dict of ColorNode
+    :param color_graph: dict of ColorNode
+    :return:
+    """
+    if color_graph is None:
+        print("Empty graph")
+        return
+
+    for color_node in color_graph.values():
+        print(color_node)
+

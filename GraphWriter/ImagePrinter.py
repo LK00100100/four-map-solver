@@ -6,17 +6,17 @@ from Graph.Color import Color
 
 class ImagePrinter:
     """
-    saves an image into the output folder
+    saves a solution image into the output folder
     """
 
     @staticmethod
     def save_png_image(file_name: str, id_grid: list, solution_graph: dict):
         """
-        Save solution_graph
+        Save solution_graph as a png file
         :param file_name: the filename
         :param id_grid: 2d array of ids
         :param solution_graph: dict of ColorNode
-        :return:
+        :return: the solution image
         """
         # convert to np_array
         # it has to be 'uint8' or it'll freak out
@@ -28,10 +28,12 @@ class ImagePrinter:
         solution_img = Image.fromarray(solution_grid, "RGB")
         solution_img.save(file_name)
 
+        return solution_img
+
     @staticmethod
     def __create_image_grid(id_grid: list, solution_graph: dict) -> list:
         """
-        Replaces ids from the id_grid with colors
+        Replaces ids from the id_grid with colors fro the solution_graph
         :param id_grid: 2d array of ids
         :param solution_graph: dict of ColorNode
         :return:

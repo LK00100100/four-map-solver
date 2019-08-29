@@ -1,12 +1,13 @@
+from Graph import GraphHelper
 from Graph.Color import Color
-from Graph.ColorNode import ColorNode
 
 
 class TextReader:
     """
     Reads a file and turns it into a ColorNode graph
-    """
 
+    It's recommended that you use the ImageReader
+    """
     @staticmethod
     def read_graph(filename: str):
         """
@@ -38,14 +39,14 @@ class TextReader:
 
                 # init nodes
                 if left.lower() == 'nodes':
-                    nodes = TextReader.init_map(int(right))
+                    nodes = GraphHelper.init_map(int(right))
                     continue
 
                 # connect node
                 if right.isnumeric():
                     node_a = int(left)
                     node_b = int(right)
-                    TextReader.link_nodes(nodes, node_a, node_b)
+                    GraphHelper.link_nodes(nodes, node_a, node_b)
                     continue
 
                 # init color
@@ -54,46 +55,3 @@ class TextReader:
                 nodes[node_a].color = color
 
         return nodes
-
-    # TODO: move these graph-related methods out
-
-    @staticmethod
-    def init_map(node_nums: int):
-        """
-        init a graph from 1 to node_nums (inclusive)
-        :param node_nums: number of nodes in the graph
-        :return: graph of nodes
-        """
-        nodes = {}
-        for i in range(1, node_nums + 1):
-            nodes[i] = ColorNode(i)
-
-        return nodes
-
-    @staticmethod
-    def link_nodes(nodes: dict, node_a: int, node_b: int):
-        """
-        Adds a two-way link between two nodes
-        Both nodes should exist
-        :param nodes: dict of ColorNodes
-        :param node_a: id number
-        :param node_b: id number
-        :return:
-        """
-
-        TextReader.__link_node_helper(nodes, node_a, node_b)
-        TextReader.__link_node_helper(nodes, node_b, node_a)
-
-    @staticmethod
-    def __link_node_helper(nodes: dict, node_a: int, node_b: int):
-        """
-        Links one way
-        :param nodes: dict of ColorNode
-        :param node_a: id
-        :param node_b: id
-        :return:
-        """
-        color_node_a = nodes[node_a]
-        color_node_b = nodes[node_b]
-
-        color_node_a.neighbors[node_b] = color_node_b

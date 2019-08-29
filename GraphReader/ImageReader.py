@@ -1,7 +1,7 @@
 from PIL import Image
 
+from Graph import GraphHelper
 from Graph.Color import Color
-from GraphReader.TextReader import TextReader
 
 
 class ImageReader:
@@ -29,7 +29,6 @@ class ImageReader:
         print("img size:", im.size)
         print("img mode:", im.mode)
 
-        # TODO probably change this later for the whole screen
         # this is the first color pixel in the game zone
         # upper-left pixel (x, y)
         start_pixel = (22, 72)
@@ -73,7 +72,6 @@ class ImageReader:
         :param grid: the 2d grid of tuple (R, G, B, A)
         :return: None
         """
-
         current_id = 1
 
         id_grid = ImageReader.init_id_grid(grid)
@@ -154,7 +152,7 @@ class ImageReader:
         """
         max_id = ImageReader.get_max_id(id_grid)
 
-        nodes = TextReader.init_map(max_id)
+        nodes = GraphHelper.init_map(max_id)
 
         # assign color
         checked_ids = set()
@@ -198,7 +196,7 @@ class ImageReader:
                         if current_id == neighbor_id:
                             break
 
-                        TextReader.link_nodes(nodes, current_id, neighbor_id)
+                        GraphHelper.link_nodes(nodes, current_id, neighbor_id)
                         break
 
                 # get the right neighbor
@@ -216,7 +214,7 @@ class ImageReader:
                         if current_id == neighbor_id:
                             break
 
-                        TextReader.link_nodes(nodes, current_id, neighbor_id)
+                        GraphHelper.link_nodes(nodes, current_id, neighbor_id)
                         break
 
         return nodes

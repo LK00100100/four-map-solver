@@ -50,8 +50,6 @@ class FourMapSolver:
         node_id = unprocessed[current_index]
         node = nodes[node_id]
 
-        # TODO: implement ez-answers (only 1 possible answer)
-
         # fill one color
         unprocessed.pop(current_index)
         for color in Color:
