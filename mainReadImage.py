@@ -5,24 +5,22 @@
 from Graph import ColorNode
 from GraphWriter.ImagePrinter import ImagePrinter
 from GraphSolver.FourMapSolver import FourMapSolver
-from datetime import datetime
 
 from GraphReader.ImageReader import ImageReader
+from Stopwatch import Stopwatch
 
 filename = "map-sample1.png"
 input_file_path = 'input_samples/' + filename
 
-print("start:", datetime.now())
-unsolved_graph = ImageReader.convert_to_graph(input_file_path)
-print("end  :", datetime.now())
+with Stopwatch():
+    unsolved_graph = ImageReader.convert_img_file_to_graph(input_file_path)
 
 print("\ninput: ")
 ColorNode.print_graph(unsolved_graph)
 
 print("\nsolve: ")
-print("start:", datetime.now())
-solved_graph = FourMapSolver().solve(unsolved_graph)
-print("end  :", datetime.now())
+with Stopwatch():
+    solved_graph = FourMapSolver().solve(unsolved_graph)
 
 print("\noutput: ")
 ColorNode.print_graph(solved_graph)
@@ -31,4 +29,3 @@ ColorNode.print_graph(solved_graph)
 output_path = "output/" + filename
 id_grid = ImageReader.last_id_grid
 ImagePrinter.save_png_image(output_path, id_grid, solved_graph)
-

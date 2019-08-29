@@ -13,28 +13,43 @@ class ImageReader:
     last_pixel_grid = None
 
     @staticmethod
-    def convert_to_graph(file_name: str) -> dict:
-        pixel_grid = ImageReader.get_image_pixel_grid(file_name)
+    def convert_img_to_graph(img):
+        pixel_grid = ImageReader.__get_pixel_grid(img)
         return ImageReader.get_color_node_graph(pixel_grid)
 
     @staticmethod
-    def get_image_pixel_grid(file_path: str) -> list:
+    def convert_img_file_to_graph(file_name: str) -> dict:
+        pixel_grid = ImageReader.get_img_file_pixel_grid(file_name)
+        return ImageReader.get_color_node_graph(pixel_grid)
+
+    @staticmethod
+    def get_img_file_pixel_grid(file_path: str) -> list:
         """
         converts an image into a 2d grid of RGBA tuples
         :param file_path: -
         :return: a 2d grid of tuples (Red, Green, Blue, Alpha)
         """
-        im = Image.open(file_path)
-        print("image format:", im.format)
-        print("img size:", im.size)
-        print("img mode:", im.mode)
+        img = Image.open(file_path)
+        print("image format:", img.format)
+        print("img size:", img.size)
+        print("img mode:", img.mode)
 
+        return ImageReader.__get_pixel_grid(img)
+
+    @staticmethod
+    def __get_pixel_grid(img) -> list:
+        """
+        gets a pixel grid from an image
+        :param img:
+        :return: 2d grid of pixel tuples (R, G, B, A)
+        Each value is [0 - 255] (inclusive)
+        """
         # this is the first color pixel in the game zone
         # upper-left pixel (x, y)
         start_pixel = (22, 72)
 
         # bottom-right pixel (x, y)
-        end_pixel = (im.size[0] - 23, im.size[1] - 23)
+        end_pixel = (img.size[0] - 23, img.size[1] - 23)
 
         game_length = end_pixel[0] - start_pixel[0] + 1
         game_height = end_pixel[1] - start_pixel[1] + 1
@@ -44,7 +59,7 @@ class ImageReader:
         for y in range(0, game_height):
             row = []
             for x in range(0, game_length):
-                pixel = im.getpixel((start_pixel[0] + x, start_pixel[1] + y))
+                pixel = img.getpixel((start_pixel[0] + x, start_pixel[1] + y))
                 row.append(pixel)
 
             grid.append(row)
