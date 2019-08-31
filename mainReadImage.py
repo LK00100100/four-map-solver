@@ -6,6 +6,8 @@ from Graph import ColorNode
 from GraphWriter.ImagePrinter import ImagePrinter
 from GraphSolver.FourMapSolver import FourMapSolver
 
+# TODO lower case file name
+
 from GraphReader.ImageReader import ImageReader
 from Stopwatch import Stopwatch
 

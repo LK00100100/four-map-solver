@@ -38,7 +38,7 @@ class FourMapSolver:
         """
         Helper for solve.
         For each spot, there SHOULD be an answer
-        :param nodes: dict of ColorNode
+        :param nodes: dict <id, ColorNode>
         :param unprocessed: list of node ids
         :return: if solution, dict of ColorNode. Else, None.
         """
