@@ -28,7 +28,8 @@ main-read-image.py is used to read a specific image (hard-coded) and output an i
 
 # TODO
 
-- Needs unit tests?
+- Unit tests
+- More error handling
 
 # Side notes
 
