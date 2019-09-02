@@ -88,6 +88,7 @@ class AutoClicker:
         for r in range(len(id_grid)):
             for c in range(len(id_grid[0])):
                 if id_grid[r][c] == target_id:
-                    return game_ul[0] + c, game_ul[1] + r
+                    # TODO +1 for hack fix. off by one. probably image reader
+                    return game_ul[0] + c + 1, game_ul[1] + r + 1
 
         return None
