@@ -1,8 +1,8 @@
 from PIL import ImageGrab, Image
+import os
 
-
-# TODO work in progress
-
+# absolute dir the script is in
+script_dir = os.path.dirname(__file__)
 
 class ScreenReader:
 
@@ -10,6 +10,8 @@ class ScreenReader:
     def get_game_img_from_screen() -> Image:
 
         logo_file_name = 'game_imgs/logo.png'
+        logo_file_name = os.path.join(script_dir, logo_file_name)
+
         logo_coord = ScreenReader.get_sub_img_coordinate_on_screen(logo_file_name)
 
         if logo_coord is None:
@@ -33,6 +35,27 @@ class ScreenReader:
         if coord_screen_bottom is None:
             print("cant find bottom border of game")
             return None
+
+        game_length = coord_screen_right[0] - coord_screen_left[0]
+        game_height = coord_screen_bottom[1] - logo_coord[1]
+
+        mid_game_x = coord_screen_left[0] + (game_length // 2)
+        mid_game_y = coord_screen_bottom[1] - (game_height // 2)
+
+        left_mid_y = (coord_screen_left[0], mid_game_y)
+        mid_x_bottom = (mid_game_x, coord_screen_bottom[1])
+
+        game_ul = ScreenReader.__get_upper_left_game_pixel(left_mid_y)
+        game_lr = ScreenReader.__get_lower_right_game_pixel(mid_x_bottom)
+
+        # +1, -1 to account for black border
+        left_x = game_ul[0] + 1
+        top_y = game_ul[1] + 1
+        right_x = game_lr[0] - 1
+        bottom_y = game_lr[1] - 1
+
+        bounding_box = (left_x, top_y, right_x, bottom_y)
+        return ImageGrab.grab(bounding_box)
 
     @staticmethod
     def __get_image_from_screen() -> Image:
@@ -172,5 +195,90 @@ class ScreenReader:
 
         return None
 
+    @staticmethod
+    def __get_upper_left_game_pixel(left_mid_y: tuple) -> tuple:
+        """
+        returns the the upper-left coordinates of the actual inner game
+        area
+        :param left_mid_y: the starting location for searching
+        (game left border, mid_y)
+        :return: tuple (x, y)
+        """
+        screen_img = ScreenReader.__get_image_from_screen()
 
-ScreenReader.get_game_img_from_screen()
+        start_x = left_mid_y[0]
+        start_y = left_mid_y[1]
+
+        some_random_limit = 200
+
+        black_pixel = (0, 0, 0)
+
+        black_border_x = None
+
+        # go right until you hit the black border
+        for x in range(start_x, start_x + some_random_limit):
+            screen_pixel = screen_img.getpixel((x, start_y))[0:3]
+            if screen_pixel == black_pixel:
+                black_border_x = x
+                break
+
+        if black_border_x is None:
+            print("reeeEEE")
+            return None
+
+        # go up until you get out of the border
+        for y in range(start_y, 0, -1):
+            screen_pixel = screen_img.getpixel((black_border_x, y))[0:3]
+            if screen_pixel != black_pixel:
+                return black_border_x, y + 1
+
+        if black_border_x is None:
+            print("reeeEEE")
+            return None
+
+        return None
+
+    @staticmethod
+    def __get_lower_right_game_pixel(mid_x_bottom: tuple) -> tuple:
+        """
+        returns the the upper-left coordinates of the actual inner game
+        area
+        :param mid_x_bottom: the starting location for searching
+        (mid_x, game bottom y)
+        :return: tuple (x, y)
+        """
+        screen_img = ScreenReader.__get_image_from_screen()
+
+        screen_img_length = screen_img.size[0]
+
+        start_x = mid_x_bottom[0]
+        start_y = mid_x_bottom[1]
+
+        some_random_limit = 200
+
+        black_pixel = (0, 0, 0)
+
+        black_border_y = None
+
+        # go up until you hit the black border
+        for y in range(start_y, start_y - some_random_limit, -1):
+            screen_pixel = screen_img.getpixel((start_x, y))[0:3]
+            if screen_pixel == black_pixel:
+                black_border_y = y
+                break
+
+        if black_border_y is None:
+            print("reeeEEE")
+            return None
+
+        # go right until you get out of the border
+        for x in range(start_x, screen_img_length):
+            screen_pixel = screen_img.getpixel((x, black_border_y))[0:3]
+            if screen_pixel != black_pixel:
+                return x - 1, black_border_y
+
+        if black_border_y is None:
+            print("reeeEEE")
+            return None
+
+        return None
