@@ -1,5 +1,5 @@
 # four-map-solver
-![GitHub](https://img.shields.io/github/license/LK00100100/four-map-solver.svg)
+![GitHub](https://img.shields.io/github/license/LK00100100/four-map-solver)
 ![RepoSize](https://img.shields.io/github/repo-size/LK00100100/four-map-solver.svg)
 ![GitHub stars](https://img.shields.io/github/stars/LK00100100/four-map-solver.svg?style=social)
 
