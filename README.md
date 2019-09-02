@@ -1,4 +1,9 @@
 # four-map-solver
+![GitHub](https://img.shields.io/github/license/LK00100100/four-map-solver.svg)
+![RepoSize](https://img.shields.io/github/repo-size/LK00100100/four-map-solver.svg)
+![GitHub stars](https://img.shields.io/github/stars/LK00100100/four-map-solver.svg?style=social)
+
+![alt text](https://raw.githubusercontent.com/LK00100100/four-map-solver/master/map-solver-demo.gif "Demo")
 
 Solves the 4-color-map on MobaXterm.
 https://en.wikipedia.org/wiki/Four_color_theorem
