@@ -1,15 +1,15 @@
 # four-map-solver
 
-**work in progress**
-
 Solves the 4-color-map on MobaXterm.
 https://en.wikipedia.org/wiki/Four_color_theorem
 
-Reads an image of the game and outputs the solution image of the game.
+If the game is running on the screen, this script will click in a solution.
+
+Also, reads an image of the game and outputs the solution image of the game.
 
 Also, reads a text file of a certain format) and outputs the solution
 
-# Running
+# Build and running
 
 Uses python 3.7, virtualenv
 
@@ -22,13 +22,13 @@ your_env/pip install -r requirements.txt
 OR if you are in pycharm, just open up the pycharm and they will
 prompt you if you want to download the still in the requirements.txt 
 
-Run mainReadImage.py
+Run main-read-screen-clicker.py and the script will read the game screen and click in a solution.
+
+main-read-image.py is used to read a specific image (hard-coded) and output an image (hard-coded)
 
 # TODO
 
 - Needs unit tests?
-- Screen Reader
-- Auto Clicker
 
 # Side notes
 
