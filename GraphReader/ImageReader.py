@@ -46,13 +46,13 @@ class ImageReader:
         """
         # this is the first color pixel in the game zone
         # upper-left pixel (x, y)
-        start_pixel = (22, 72)
+        start_pixel = (0, 0)
 
         # bottom-right pixel (x, y)
-        end_pixel = (img.size[0] - 23, img.size[1] - 23)
+        end_pixel = (img.size[0], img.size[1])
 
-        game_length = end_pixel[0] - start_pixel[0] + 1
-        game_height = end_pixel[1] - start_pixel[1] + 1
+        game_length = end_pixel[0] - start_pixel[0]
+        game_height = end_pixel[1] - start_pixel[1]
 
         # get image into grid
         grid = []
