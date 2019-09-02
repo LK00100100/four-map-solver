@@ -24,8 +24,7 @@ File -> Settings -> Project -> Project Interpreter
 To install packages:
 your_env/pip install -r requirements.txt
 
-OR if you are in pycharm, just open up the pycharm and they will
-prompt you if you want to download the still in the requirements.txt 
+OR if you are in pycharm, just open up the pycharm and they will prompt you if you want to download the stuff in the requirements.txt 
 
 Run main-read-screen-clicker.py and the script will read the game screen and click in a solution.
 
