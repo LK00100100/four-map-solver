@@ -1,23 +1,29 @@
 from PIL import ImageGrab, Image
 
 
+# TODO work in progress
+
+
 class ScreenReader:
 
     @staticmethod
-    def get_logo_coordinate_from_screen():
-        """
-        finds an instance of the game by finding the game logo
-        :return:(x, y) of the upper-left corner of the game
-        """
-        screen_img = ScreenReader.__get_image_from_screen()
+    def get_game_img_from_screen() -> Image:
 
-        logo_coordinate = ScreenReader.__get_logo_coordinate(screen_img)
+        logo_file_name = 'game_imgs/logo.png'
+        logo_coord = ScreenReader.get_sub_img_coordinate_on_screen(logo_file_name)
 
-        if logo_coordinate is None:
-            error_msg = "cannot find logo. is the game on? is it unobstructed?"
-            raise Exception(error_msg)
+        if logo_coord is None:
+            return None
 
-        return logo_coordinate
+        coord_ul = ScreenReader.get_sub_img_coordinate_on_screen('game_imgs/corner-ul.png', logo_coord)
+        if coord_ul is None:
+            return None
+
+        coord_lr = ScreenReader.get_sub_img_coordinate_on_screen('game_imgs/corner-lr.png', logo_coord)
+        if coord_lr is None:
+            return None
+
+        print(True)
 
     @staticmethod
     def __get_image_from_screen() -> Image:
@@ -29,26 +35,32 @@ class ScreenReader:
         return ImageGrab.grab(bbox=None)
 
     @staticmethod
-    def __get_logo_coordinate(screen_img: Image) -> tuple:
+    def get_sub_img_coordinate_on_screen(file_name: str, start_coord: tuple = (0, 0)) -> tuple:
         """
-        :param screen_img:
+        attempts to find a sub_image on the screen
+        :param file_name: of sub_image
+        :param start_coord: (x, y) scan everything below and to the right of this
         :return: (x, y) of upper-left corner
         None, if not found
         """
-        logo_filename = "logo.png"
-        logo_img = Image.open(logo_filename)
+        screen_img = ScreenReader.__get_image_from_screen()
+
+        logo_img = Image.open(file_name)
 
         screen_width = screen_img.size[0]
         screen_height = screen_img.size[1]
         logo_width = logo_img.size[0]
         logo_height = logo_img.size[1]
 
+        start_x = start_coord[0]
+        start_y = start_coord[1]
+
         # upper left corner of the logo (if found)
         the_corner = None
 
         is_match = False
-        for screen_y in range(screen_height):
-            for screen_x in range(screen_width):
+        for screen_y in range(start_y, screen_height):
+            for screen_x in range(start_x, screen_width):
                 is_match = True
                 for logo_y in range(logo_height):
                     for logo_x in range(logo_width):
@@ -72,6 +84,5 @@ class ScreenReader:
         return the_corner
 
 
-logo_coord = ScreenReader.get_logo_coordinate_from_screen()
+ScreenReader.get_game_img_from_screen()
 
-print(logo_coord)

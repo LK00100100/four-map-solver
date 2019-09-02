@@ -2,6 +2,7 @@
 # python 3.7
 # reads a still image of the game and returns a solution image
 # author lk00100100
+import sys
 from Graph import ColorNode
 from GraphWriter.ImagePrinter import ImagePrinter
 from GraphSolver.FourMapSolver import FourMapSolver
@@ -24,6 +25,10 @@ print("\nsolve: ")
 with Stopwatch():
     solved_graph = FourMapSolver().solve(unsolved_graph)
 
+if solved_graph is None:
+    print("no solution")
+    sys.exit(0)
+
 print("\noutput: ")
 ColorNode.print_graph(solved_graph)
 
@@ -31,3 +36,4 @@ ColorNode.print_graph(solved_graph)
 output_path = "output/" + filename
 id_grid = ImageReader.last_id_grid
 ImagePrinter.save_png_image(output_path, id_grid, solved_graph)
+print("check output folder")
