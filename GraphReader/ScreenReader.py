@@ -13,17 +13,26 @@ class ScreenReader:
         logo_coord = ScreenReader.get_sub_img_coordinate_on_screen(logo_file_name)
 
         if logo_coord is None:
+            print("can't find game logo")
             return None
 
-        coord_ul = ScreenReader.get_sub_img_coordinate_on_screen('game_imgs/corner-ul.png', logo_coord)
-        if coord_ul is None:
+        coord_screen_left = ScreenReader.__get__game_screen_left_pixel(logo_coord)
+
+        if coord_screen_left is None:
+            print("cant find left border of game")
             return None
 
-        coord_lr = ScreenReader.get_sub_img_coordinate_on_screen('game_imgs/corner-lr.png', logo_coord)
-        if coord_lr is None:
+        coord_screen_right = ScreenReader.__get__game_screen_right_pixel(logo_coord)
+
+        if coord_screen_right is None:
+            print("cant find right border of game")
             return None
 
-        print(True)
+        coord_screen_bottom = ScreenReader.__get__game_screen_bottom_pixel(logo_coord)
+
+        if coord_screen_bottom is None:
+            print("cant find bottom border of game")
+            return None
 
     @staticmethod
     def __get_image_from_screen() -> Image:
@@ -56,9 +65,6 @@ class ScreenReader:
         start_y = start_coord[1]
 
         # upper left corner of the logo (if found)
-        the_corner = None
-
-        is_match = False
         for screen_y in range(start_y, screen_height):
             for screen_x in range(start_x, screen_width):
                 is_match = True
@@ -75,14 +81,96 @@ class ScreenReader:
                         break
 
                 if is_match:
-                    the_corner = (screen_x, screen_y)
-                    break
+                    return screen_x, screen_y
 
-            if is_match:
+        return None
+
+    @staticmethod
+    def __get__game_screen_left_pixel(logo_coord: tuple) -> tuple:
+        """
+        gets the tuple of the left of the game screen
+        :param: logo_coord: (x, y)
+        :return: tuple coordinate or None as default
+        """
+        screen_img = ScreenReader.__get_image_from_screen()
+
+        logo_x = logo_coord[0]
+        logo_y = logo_coord[1]
+
+        white_pixel = (255, 255, 255)
+
+        white_x = 0
+        # go into white zone
+        for x in range(logo_x, 0, -1):
+            screen_pixel = screen_img.getpixel((x, logo_y))
+            if screen_pixel[0:3] == white_pixel:
+                white_x = x
                 break
 
-        return the_corner
+        # go into the non white-zone (the end)
+        for x in range(white_x, 0, -1):
+            screen_pixel = screen_img.getpixel((x, logo_y))
+            if screen_pixel[0:3] != white_pixel:
+                return x, logo_y
+
+        return None
+
+    @staticmethod
+    def __get__game_screen_right_pixel(logo_coord: tuple) -> tuple:
+        """
+        gets the tuple of the right of the game screen
+        :param: logo_coord: (x, y)
+        :return: tuple coordinate or None as default
+        """
+        screen_img = ScreenReader.__get_image_from_screen()
+
+        screen_width = screen_img.size[0]
+
+        logo_x = logo_coord[0]
+        logo_y = logo_coord[1]
+
+        start_y = logo_y - 3 if logo_y - 3 >= 0 else 0
+
+        white_pixel = (255, 255, 255)
+
+        # go into the non white-zone (the end)
+        for x in range(logo_x, screen_width):
+            screen_pixel = screen_img.getpixel((x, start_y))
+            if screen_pixel[0:3] != white_pixel:
+                return x, logo_y
+
+        return None
+
+    @staticmethod
+    def __get__game_screen_bottom_pixel(logo_coord: tuple) -> tuple:
+        """
+        gets the tuple of the bottom of the game screen
+        :param: logo_coord: (x, y)
+        :return: tuple coordinate or None as default
+        """
+        screen_img = ScreenReader.__get_image_from_screen()
+
+        screen_height = screen_img.size[1]
+
+        tool_bar_height = 45
+
+        logo_x = logo_coord[0]
+        logo_y = logo_coord[1]
+
+        start_x = logo_x - 5 if logo_x - 5 >= 0 else 0
+
+        white_pixel = (255, 255, 255)
+        grey_pixel = (240, 240, 240)
+        grey2_pixel = (242, 242, 242)
+
+        # go into the non white-zone, non-grey (the end)
+        for y in range(logo_y, screen_height - tool_bar_height):
+            screen_pixel = screen_img.getpixel((start_x, y))[0:3]
+
+            if screen_pixel != white_pixel and screen_pixel != grey_pixel and screen_pixel != grey2_pixel:
+                return logo_x, y
+
+        return None
 
 
 ScreenReader.get_game_img_from_screen()
-
