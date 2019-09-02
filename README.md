@@ -13,6 +13,9 @@ Also, reads a text file of a certain format) and outputs the solution
 
 Uses python 3.7, virtualenv
 
+I use the Pycharm IDE to set all of the dependencies.
+File -> Settings -> Project -> Project Interpreter
+
 To get package requirements:
 your_env/pip freeze > requirements.txt
 
