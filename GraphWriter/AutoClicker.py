@@ -1,8 +1,7 @@
-from PIL import ImageGrab, Image
+from PIL import ImageGrab
 import pyautogui
 
 from Graph.Color import Color
-from Graph.ColorNode import ColorNode
 
 
 class AutoClicker:
@@ -15,7 +14,7 @@ class AutoClicker:
     def solve(game_ul: tuple, id_grid: list, solved_graph: dict):
         """
         auto clicks the game for you
-        :param game_ul: tuple (x, y) upper left corner
+        :param game_ul: tuple (x, y) upper left corner of the inner game zone
         :param id_grid: 2d grid of id for the shapes
         :param solved_graph: a solved graph <id, color node>
         :return:
@@ -55,7 +54,7 @@ class AutoClicker:
         """
         returns some pixel coordinate that has the target Color
         relative to screen
-        :param game_ul: game's upper-left screen coordinates
+        :param game_ul: game's inner game zone upper-left screen coordinates
         :param id_grid: 2d array of ids of nodes
         :param solved_graph: dict <id, ColorNode>
         :param target_color: The Color  you want
