@@ -16,11 +16,11 @@ Uses python 3.7, virtualenv
 I use the Pycharm IDE to set all of the dependencies.
 File -> Settings -> Project -> Project Interpreter
 
-To get package requirements:
-your_env/pip freeze > requirements.txt
-
 To install packages:
 your_env/pip install -r requirements.txt
+
+OR if you are in pycharm, just open up the pycharm and they will
+prompt you if you want to download the still in the requirements.txt 
 
 Run mainReadImage.py
 
@@ -29,3 +29,13 @@ Run mainReadImage.py
 - Needs unit tests?
 - Screen Reader
 - Auto Clicker
+
+# Side notes
+
+To get installed packages:
+your_env/pip freeze > requirements.txt
+
+As a safety feature, a fail-safe feature is enabled by default.
+When pyautogui.FAILSAFE = True
+PyAutoGUI functions will raise a pyautogui.FailSafeException if the mouse cursor is in the upper left corner of the screen.
+If you lose control and need to stop the current PyAutoGUI function, keep moving the mouse cursor up and to the left. 

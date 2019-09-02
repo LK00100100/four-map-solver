@@ -4,7 +4,11 @@ import os
 # absolute dir the script is in
 script_dir = os.path.dirname(__file__)
 
+
 class ScreenReader:
+    # the value which was set previously
+    last_game_ul = None  # game upper left
+    last_game_lr = None  # game lower right
 
     @staticmethod
     def get_game_img_from_screen() -> Image:
@@ -47,6 +51,9 @@ class ScreenReader:
 
         game_ul = ScreenReader.__get_upper_left_game_pixel(left_mid_y)
         game_lr = ScreenReader.__get_lower_right_game_pixel(mid_x_bottom)
+
+        ScreenReader.last_game_ul = game_ul
+        ScreenReader.last_game_lr = game_lr
 
         # +1, -1 to account for black border
         left_x = game_ul[0] + 1
@@ -199,7 +206,7 @@ class ScreenReader:
     def __get_upper_left_game_pixel(left_mid_y: tuple) -> tuple:
         """
         returns the the upper-left coordinates of the actual inner game
-        area
+        area (just inside the black border)
         :param left_mid_y: the starting location for searching
         (game left border, mid_y)
         :return: tuple (x, y)
@@ -230,7 +237,7 @@ class ScreenReader:
         for y in range(start_y, 0, -1):
             screen_pixel = screen_img.getpixel((black_border_x, y))[0:3]
             if screen_pixel != black_pixel:
-                return black_border_x, y + 1
+                return black_border_x + 1, y + 2
 
         if black_border_x is None:
             print("reeeEEE")
@@ -242,7 +249,7 @@ class ScreenReader:
     def __get_lower_right_game_pixel(mid_x_bottom: tuple) -> tuple:
         """
         returns the the upper-left coordinates of the actual inner game
-        area
+        area (just inside the black border)
         :param mid_x_bottom: the starting location for searching
         (mid_x, game bottom y)
         :return: tuple (x, y)
@@ -275,7 +282,7 @@ class ScreenReader:
         for x in range(start_x, screen_img_length):
             screen_pixel = screen_img.getpixel((x, black_border_y))[0:3]
             if screen_pixel != black_pixel:
-                return x - 1, black_border_y
+                return x - 2, black_border_y - 1
 
         if black_border_y is None:
             print("reeeEEE")
