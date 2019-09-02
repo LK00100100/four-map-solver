@@ -26,4 +26,6 @@ Run mainReadImage.py
 
 # TODO
 
-Needs unit tests
+- Needs unit tests?
+- Screen Reader
+- Auto Clicker
