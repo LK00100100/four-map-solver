@@ -5,6 +5,8 @@
 
 ![alt text](https://raw.githubusercontent.com/LK00100100/four-map-solver/master/map-solver-demo.gif "Demo")
 
+**Work in progress**
+
 Solves the 4-color-map on MobaXterm.
 https://en.wikipedia.org/wiki/Four_color_theorem
 
