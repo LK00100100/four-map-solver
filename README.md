@@ -5,8 +5,6 @@
 
 ![alt text](https://raw.githubusercontent.com/LK00100100/four-map-solver/master/map-solver-demo.gif "Demo")
 
-**Work in progress**
-
 Solves the 4-color-map on MobaXterm.
 https://en.wikipedia.org/wiki/Four_color_theorem
 
@@ -26,24 +24,22 @@ File -> Settings -> Project -> Project Interpreter
 I use anaconda's conda to create the virtual environment.
 
 To install packages:
-    your_env/pip install -r requirements.txt
+```
+your_env/pip install -r requirements.txt
+```
 Conda may not have what you want.
 
 OR if you are in pycharm, just open up the pycharm and they will prompt you if you want to download the stuff in the requirements.txt 
 
-Run main-read-screen-clicker.py and the script will read the game screen and click in a solution.
+Run **main-read-screen-clicker.py** and the script will read the game screen and click in a solution.
 
-main-read-image.py is used to read a specific image (hard-coded) and output an image (hard-coded)
+**main-read-image.py** is used to read a specific image (hard-coded) and output an image (hard-coded)
 
 # TODO
 
 - Unit tests
-- More error handling
 
 # Side notes
-
-To get installed packages:
-your_env/pip freeze > requirements.txt
 
 As a safety feature, a fail-safe feature is enabled by default.
 When pyautogui.FAILSAFE = True
