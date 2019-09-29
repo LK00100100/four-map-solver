@@ -8,7 +8,6 @@ from GraphReader.ImageReader import ImageReader
 from GraphReader.ScreenReader import ScreenReader
 from GraphSolver.FourMapSolver import FourMapSolver
 from GraphWriter.AutoClicker import AutoClicker
-from GraphWriter.ImagePrinter import ImagePrinter
 from Stopwatch import Stopwatch
 
 print("\nReading game image from screen: ")
@@ -39,5 +38,3 @@ ColorNode.print_graph(solved_graph)
 id_grid = ImageReader.last_id_grid
 game_ul = ScreenReader.last_game_ul
 AutoClicker.solve(game_ul, id_grid, solved_graph)
-
-

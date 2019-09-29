@@ -18,13 +18,16 @@ Also, reads a text file of a certain format) and outputs the solution
 
 # Build and running
 
-Uses python 3.7, virtualenv
+Uses python 3.5.
 
 I use the Pycharm IDE to set all of the dependencies.
 File -> Settings -> Project -> Project Interpreter
 
+I use anaconda's conda to create the virtual environment.
+
 To install packages:
-your_env/pip install -r requirements.txt
+    your_env/pip install -r requirements.txt
+Conda may not have what you want.
 
 OR if you are in pycharm, just open up the pycharm and they will prompt you if you want to download the stuff in the requirements.txt 
 

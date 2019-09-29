@@ -30,6 +30,6 @@ print("\noutput: ")
 ColorNode.print_graph(solved_graph)
 
 # output picture
-output_path = "output/current_screen.png"
+output_path = "output/current_screen_solution.png"
 id_grid = ImageReader.last_id_grid
 ImagePrinter.save_png_image(output_path, id_grid, solved_graph)

@@ -14,7 +14,7 @@ class AutoClicker:
     def solve(game_ul: tuple, id_grid: list, solved_graph: dict):
         """
         auto clicks the game for you
-        :param game_ul: tuple (x, y) upper left corner of the inner game zone
+        :param game_ul: tuple (x, y) upper left corner of the inner game zone. screen coordinates.
         :param id_grid: 2d grid of id for the shapes
         :param solved_graph: a solved graph <id, color node>
         :return:
