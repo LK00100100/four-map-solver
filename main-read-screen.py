@@ -2,6 +2,7 @@
 # python 3.7
 # reads the screen for a game and returns a solution image
 # author lk00100100
+import os
 import sys
 from Graph import ColorNode
 from GraphReader.ImageReader import ImageReader
@@ -30,6 +31,9 @@ print("\noutput: ")
 ColorNode.print_graph(solved_graph)
 
 # output picture
+if not os.path.exists("output"):
+    os.mkdir("output")
+
 output_path = "output/current_screen_solution.png"
 id_grid = ImageReader.last_id_grid
 ImagePrinter.save_png_image(output_path, id_grid, solved_graph)
