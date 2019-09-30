@@ -26,9 +26,9 @@ class ScreenReader:
         ScreenReader.move_to_origin(handle)
 
         # +8 for the invisible windows border
-        logo_coord = (8, 8)
+        outer_upper_left_game_coord = (8, 8)
 
-        left_mid_y = ScreenReader.__get_game_screen_left_outer_border_tuple(logo_coord)
+        left_mid_y = ScreenReader.__get_game_screen_left_outer_border_tuple(outer_upper_left_game_coord)
 
         if left_mid_y is None:
             print("cant find left border of game")
@@ -40,6 +40,7 @@ class ScreenReader:
         ScreenReader.last_game_ul = game_ul
         ScreenReader.last_game_lr = game_br
 
+        # calculate inner game corners
         left_x = game_ul[0]
         top_y = game_ul[1]
         right_x = game_br[0]
@@ -50,6 +51,10 @@ class ScreenReader:
 
     @staticmethod
     def detect_game_window():
+        """
+        returns
+        :return: returns the handle (process id)
+        """
         handle = win32gui.FindWindow(None, ScreenReader.GAME_APPLICATION_TITLE)
         if handle == 0:
             raise ProcessLookupError("Game not found")
@@ -58,6 +63,11 @@ class ScreenReader:
 
     @staticmethod
     def move_to_origin(handle: int):
+        """
+        moves the game window to 0, 0
+        :param handle: process id
+        :return:
+        """
         win32gui.SetForegroundWindow(handle)
 
         rect = ScreenReader.get_game_rect(handle)
@@ -71,6 +81,15 @@ class ScreenReader:
 
     @staticmethod
     def get_game_rect(handle: int):
+        """
+        returns game window measurements (see below)
+        :param handle: process id
+        :return:
+        x = rect[0]
+        y = rect[1]
+        width = rect[2] - x
+        height = rect[3] - y
+        """
         rect = win32gui.GetWindowRect(handle)
         return rect
 
@@ -84,14 +103,14 @@ class ScreenReader:
         return ImageGrab.grab(bbox=None)
 
     @staticmethod
-    def __get_game_screen_left_outer_border_tuple(ul_coord: tuple) -> tuple:
+    def __get_game_screen_left_outer_border_tuple(outer_ul_coord: tuple) -> tuple:
         """
         gets the tuple coordinate of the outer left border of the game screen
-        :param: ul_coord: (x, y) upper left coordinate of the game
-        :return: tuple coordinate or None as default
+        :param: outer_ul_coord: (x, y) outer upper left coordinate of the game
+        :return: (x, y) tuple coordinate or None as default. y is the mid point of the game
         """
-        x = ul_coord[0]
-        y = ul_coord[1]
+        x = outer_ul_coord[0]
+        y = outer_ul_coord[1]
 
         handle = ScreenReader.detect_game_window()
         rect = ScreenReader.get_game_rect(handle)
