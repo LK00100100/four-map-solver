@@ -27,18 +27,18 @@ To install packages:
 ```
 your_env/pip install -r requirements.txt
 ```
-Conda may not have what you want.
+Conda may not have the packages that you want. In which case, we use pip install \<package\>. I do use Conda
+to get the specific python versions.
 
 OR if you are in pycharm, just open up the pycharm and they will prompt you if you want to download the stuff in the requirements.txt 
 
 Run **main-read-screen-clicker.py** and the script will read the game screen and click in a solution.
 
-**main-read-image.py** is used to read a specific image (hard-coded) and output an image (hard-coded)
+**main-read-image.py** is used to read a specific image (hard-coded) and output an image (hard-coded) in the
+output folder.
 
-# TODO
-
-- Unit tests
-
+You can also check out the "test" folder. In pycharm, right click it and run tests.
+ 
 # Side notes
 
 As a safety feature, a fail-safe feature is enabled by default.
