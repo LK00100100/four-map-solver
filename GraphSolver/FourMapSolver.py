@@ -4,7 +4,8 @@ from Graph.ColorNode import ColorNode
 
 class FourMapSolver:
 
-    def solve(self, nodes: dict):
+    @staticmethod
+    def solve(nodes: dict):
         """
         Given an incomplete 4-color-graph,
         it will return a graph solution.
@@ -16,9 +17,9 @@ class FourMapSolver:
         """
         # TODO: check if graph is valid to begin with
 
-        unprocessed_nodes = self.__get_unprocessed_nodes(nodes)
+        unprocessed_nodes = FourMapSolver.__get_unprocessed_nodes(nodes)
 
-        return self.__solve(nodes, unprocessed_nodes)
+        return FourMapSolver.__solve(nodes, unprocessed_nodes)
 
     @staticmethod
     def __get_unprocessed_nodes(nodes: dict):
@@ -34,7 +35,8 @@ class FourMapSolver:
 
         return unprocessed
 
-    def __solve(self, nodes: dict, unprocessed: list):
+    @staticmethod
+    def __solve(nodes: dict, unprocessed: list):
         """
         Helper for solve.
         For each spot, there SHOULD be an answer
@@ -43,7 +45,7 @@ class FourMapSolver:
         :return: if solution, dict of ColorNode. Else, None.
         """
 
-        if self.is_solution(unprocessed):
+        if FourMapSolver.is_solution(unprocessed):
             return nodes
 
         current_index = 0
@@ -58,10 +60,10 @@ class FourMapSolver:
 
             # try to apply a color
             node.color = color
-            if not self.is_valid(node):
+            if not FourMapSolver.is_valid(node):
                 continue
 
-            answer = self.__solve(nodes, unprocessed)
+            answer = FourMapSolver.__solve(nodes, unprocessed)
             if answer is not None:
                 return answer
 
