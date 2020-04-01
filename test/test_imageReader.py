@@ -17,11 +17,12 @@ class TestFourMapSolverReader(TestCase):
         solved_nodes = FourMapSolver.solve(nodes)
 
         # Assert
-        # make sure each node's color is good when compared to its neighbor
+        # make sure each node's color is good
         for color_node in solved_nodes.values():  # type: ColorNode
             current_color = color_node.color
+            self.assertNotEqual(Color.NONE, current_color)
 
+            # make sure the neighbors use a different color
             for child_node in color_node.neighbors.values():  # type: ColorNode
                 child_color = child_node.color
-                self.assertNotEqual(Color.NONE, child_color)
                 self.assertNotEqual(current_color, child_color)
